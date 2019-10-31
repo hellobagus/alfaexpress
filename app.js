@@ -42,7 +42,7 @@ router.get('/me', session.check,  function(req, res) {
 router.get('/user',session.check, routes.user.listAllEmployees);
 router.get('/user/:rowID', session.check, routes.user.listOneEmployee);
 router.get('/menu/:approval_user',routes.menu.groupMenu);
-router.get('/detail/:approval_user', routes.menu.viewMenu);
+router.get('/detail/:module', routes.menu.viewMenu);
 
 // router.get('/employees/:id', middlewares.authenticate, middlewares.getIDAsInteger,routes.employees.listOneEmployee);
 // router.post('/employees', jsonParser, routes.employees.createEmployee);

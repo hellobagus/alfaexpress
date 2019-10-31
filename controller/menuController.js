@@ -64,27 +64,28 @@ function groupMenu(req, res ,next) {
   
   function viewMenu(req, res ,next) {
     const one = require('knex')(configTwo);
-    const {approval_user } = req.params;
+    const { module} = req.params;
 
     one
     .select()
     .from('alfa_hosp_live.mgr.v_detail_menu_approval')
     .where({ 
-        approval_user:`${approval_user}`})
+        module:`${module}`})
     .unionAll([ 
         one.select()
     .from('alfa_prop_live.mgr.v_detail_menu_approval')
-    .where({ approval_user:`${approval_user}`})
+    .where({ 
+        module:`${module}`})
     ])
     .then(data => {
 
         let result = [];
         data.map((item)=>{
-            const filter= result.filter(key => key.approval_user == item.approval_user);
+            const filter= result.filter(key => key.module == item.module);
             if(filter.length == 0){
                 result.push(item);
             } else {
-                const x = result.filter(key => key.approval_user !== item.approval_user);
+                const x = result.filter(key => key.module !== item.module);
                 let plus = filter[0].total_doc + item.total_doc;
                 let dataPush = {
                     doc_no : item.doc_no,
