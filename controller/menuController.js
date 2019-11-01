@@ -67,7 +67,7 @@ function groupMenu(req, res ,next) {
   
   function viewMenu(req, res ,next) {
     const one = require('knex')(configTwo);
-    const { module, approval_user} = req.params;
+    const { module, approval_user,} = req.params;
     one
     .select('*')
     .from('alfa_hosp_live.mgr.v_detail_menu_approval')
@@ -85,8 +85,34 @@ function groupMenu(req, res ,next) {
     ])
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json(error));
+    next()
   } 
 
+
+
+  function otorisasi(req, res, next) {
+      const one = require('knex')(configTwo);
+      const { entity_cd, doc_no, modules} = req.params;
+    one
+    .select('*')
+    .from('alfa_hosp_live.mgr.v_cb_approval_mobile')
+    .where({ 
+        entity_cd: `${entity_cd}`,
+        doc_no : `${doc_no}`,
+        module: `${modules}`
+       })
+    .unionAll([ 
+        one.select('*')
+    .from('alfa_prop_live.mgr.v_cb_approval_mobile')
+    .where({ 
+        entity_cd: `${entity_cd}`,
+        doc_no : `${doc_no}`,
+        module: `${modules}`
+        })
+    ])
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json(error));
+  }
 
 
 
@@ -95,5 +121,6 @@ function groupMenu(req, res ,next) {
 
   module.exports = {
       groupMenu,
-      viewMenu
+      viewMenu,
+      otorisasi
   }

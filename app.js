@@ -42,7 +42,8 @@ router.get('/me', session.check,  function(req, res) {
 router.get('/user',session.check, routes.user.listAllEmployees);
 router.get('/user/:rowID', session.check, routes.user.listOneEmployee);
 router.get('/menu/:approval_user',session.check, routes.menu.groupMenu);
-router.get('/menu/:approval_user/:module',routes.menu.viewMenu);
+router.get('/menu/:approval_user/:module', routes.menu.viewMenu);
+router.get('/menu/:modules/:entity_cd/:doc_no', routes.menu.otorisasi);
 router.get('/detail/:module', routes.menu.viewMenu);
 
 // router.get('/employees/:id', middlewares.authenticate, middlewares.getIDAsInteger,routes.employees.listOneEmployee);
